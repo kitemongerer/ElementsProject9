@@ -1,0 +1,55 @@
+class Segment {
+
+	static int size;
+
+	field int x;
+	field int y;
+
+	/** Constructs a new snake */
+	constructor Segment new(int x, int y) {
+		let size = 7;
+
+		let this.x = x;
+		let this.y = y;
+
+		return this;
+	}
+
+	method void setX(int x) {
+		this.x = x;
+		return;
+	}
+
+	method void setY(int y) {
+		this.y = y;
+		return;
+	}
+
+	method int getX() {
+		return x;
+	}
+
+	method int getY(y) {
+		return y;
+	}
+
+
+	method void draw() {
+
+	}
+
+	method boolean collide(Segment tmp) {
+		if (tmp.getX() == this.x && tmp.getY() == this.y) {
+			return -1;
+		} else {
+			return 0;
+		}
+	}
+
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	
+}

@@ -1,0 +1,75 @@
+class Snake {
+
+	field int length;
+	field Array snake;
+
+	/** Constructs a new snake */
+	constructor Snake new() {
+		int i;
+
+		let length = 5;
+
+		let i = 0;
+
+		while(i < length) {
+			let snake[i] = Segment.new(16 + i, 30);
+		}
+	}
+
+	method void drawSnake() {
+		int i;
+		let i = 0;
+
+		while(i < length) {
+			do snake[i].draw();
+			let i = i + 1;
+		}
+	}
+
+	method boolean move(char direction) {
+		int x;
+		int y;
+		int i;
+		Segment tmp;
+		boolean collision;
+		let collision = 0;
+
+		let i = length - 1;
+
+		do snake[i].dispose();
+
+		let x = 0;
+		let y = 0;
+
+		//Change based on direction
+		if (direction == 'w') {
+			let y = -1;							
+		} else { 
+			if(direction == 'a') {
+				let x = -1;
+			} else {
+				if(direction == 's') {
+					let y = 1;
+				} else { // d
+					let x = 1;
+				}
+			}
+		}
+
+		let tmp = Segment.new(snake[0].getX() + x, snake[0].getY() + y)
+
+		while (i > 0) {
+			let snake[i] = snake [i - 1];
+
+			if (snake[i].collide(tmp)) {
+				let collision = -1;
+			}
+
+			let i = i + 1;
+		}
+
+		let snake[0] = tmp;
+
+	}
+	
+}
