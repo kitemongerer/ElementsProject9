@@ -1,0 +1,68 @@
+class Main {
+
+	function char getDirection() {
+		var char tmp;
+		let tmp = Keyboard.keyPressed();
+		do Output.printInt(tmp);
+
+		do Sys.wait(100);
+
+		if (tmp = 87 | tmp = 65 | tmp = 83 | tmp = 68) {
+			return tmp;
+		}
+		
+		return 0;
+	}
+
+
+	function void main() {
+		var char direction;
+		var Snake snake;
+		var char tmp;
+
+		let direction = 0;
+		let snake = Snake.new();
+
+		while(direction = 0) {
+			while(Keyboard.keyPressed()) {}
+			//do Output.moveCursor(5,5);
+			//do Output.printInt(Keyboard.keyPressed());
+			let direction = Keyboard.keyPressed();//Main.getDirection();
+		}
+
+		while(-1) {
+			let tmp = Main.getDirection(); //Keyboard.keyPressed();
+
+			if(~(tmp = 0)) {
+				let direction = tmp;
+			}
+
+			
+
+			do Screen.clearScreen();
+
+			//do Output.moveCursor(5,5);
+			//do Output.printInt(direction);
+			do snake.move(direction);
+			do snake.drawSnake();
+			do Sys.wait(100);
+		}
+		
+
+
+		do snake.drawSnake();
+
+		do Sys.wait(1000);
+
+		do Screen.clearScreen();
+		
+		do Screen.clearScreen();
+		do snake.move(77);
+		do snake.drawSnake();
+
+		return;
+	}
+
+	
+}
+

@@ -1,54 +1,62 @@
 class Snake {
 
 	field int length;
-	field Array snake;
+	field Segment snakeHead;
+	field Segment snakeTail;
 
 	/** Constructs a new snake */
 	constructor Snake new() {
-		int i;
+		var int i;
 
 		let length = 5;
 
-		let i = 0;
+		let snakeHead = Segment.new(30, 16, null);
+		let snakeTail = snakeHead;
+
+		let i = 1;
 
 		while(i < length) {
-			let snake[i] = Segment.new(16 + i, 30);
+			do snakeTail.add(Segment.new(30 + i, 16, null));
+			let snakeTail = snakeTail.next();
+			let i = i + 1;
 		}
+
+		return this;
 	}
 
 	method void drawSnake() {
-		int i;
-		let i = 0;
+		var Segment currentSeg;
+		let currentSeg = snakeHead;
 
-		while(i < length) {
-			do snake[i].draw();
-			let i = i + 1;
+		while(~(currentSeg = null)) {
+			do currentSeg.draw();
+			let currentSeg = currentSeg.next();
 		}
+
+		return;
 	}
 
-	method boolean move(char direction) {
-		int x;
-		int y;
-		int i;
-		Segment tmp;
-		boolean collision;
-		let collision = 0;
+	method void move(char direction) {
+		var int x;
+		var int y;
+		var Segment tmp;
 
-		let i = length - 1;
-
-		do snake[i].dispose();
+		let tmp = snakeTail.previous();
+		do tmp.setNext(null);
+		do snakeTail.dispose();
+		let snakeTail = tmp;
 
 		let x = 0;
 		let y = 0;
 
 		//Change based on direction
-		if (direction == 'w') {
+		if (direction = 87) { //w
 			let y = -1;							
 		} else { 
-			if(direction == 'a') {
+			if(direction = 65) { //a
 				let x = -1;
 			} else {
-				if(direction == 's') {
+				if(direction = 83) { //s
 					let y = 1;
 				} else { // d
 					let x = 1;
@@ -56,8 +64,9 @@ class Snake {
 			}
 		}
 
-		let tmp = Segment.new(snake[0].getX() + x, snake[0].getY() + y)
+		let tmp = Segment.new(snakeHead.getX() + x, snakeHead.getY() + y, snakeHead);
 
+/*
 		while (i > 0) {
 			let snake[i] = snake [i - 1];
 
@@ -69,7 +78,16 @@ class Snake {
 		}
 
 		let snake[0] = tmp;
+*/
 
+		do tmp.add(snakeHead);
+		let snakeHead = tmp;
+
+		return;
+	}
+
+	method void addSegment() {
+		return;
 	}
 	
 }

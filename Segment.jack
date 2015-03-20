@@ -4,24 +4,29 @@ class Segment {
 
 	field int x;
 	field int y;
+	field Segment next;
+	field Segment previous;
 
 	/** Constructs a new snake */
-	constructor Segment new(int x, int y) {
-		let size = 7;
+	constructor Segment new(int xNew, int yNew, Segment nextSeg) {
+		let size = 8;
 
-		let this.x = x;
-		let this.y = y;
+		let x = xNew;
+		let y = yNew;
+
+		let next = nextSeg;
+		let previous = null;
 
 		return this;
 	}
 
-	method void setX(int x) {
-		this.x = x;
+	method void setX(int xNew) {
+		let x = xNew;
 		return;
 	}
 
-	method void setY(int y) {
-		this.y = y;
+	method void setY(int yNew) {
+		let y = yNew;
 		return;
 	}
 
@@ -29,17 +34,42 @@ class Segment {
 		return x;
 	}
 
-	method int getY(y) {
+	method int getY() {
 		return y;
 	}
 
 
 	method void draw() {
+		do Screen.drawRectangle(x * size + 1, y * size + 1, x * size + size - 1, y * size + size - 1);
+		return;
+	}
 
+	method Segment next() {
+		return next;
+	}
+
+	method Segment previous() {
+		return previous;
+	}
+
+	method void add(Segment nextSeg) {
+		let next = nextSeg;
+		do nextSeg.setPrevious(this);
+		return;
+	}
+
+	method void setNext(Segment nextSeg) {
+		let next = nextSeg;
+		return;
+	}
+
+	method void setPrevious(segment prevSeg) {
+		let previous = prevSeg;
+		return;
 	}
 
 	method boolean collide(Segment tmp) {
-		if (tmp.getX() == this.x && tmp.getY() == this.y) {
+		if ( (tmp.getX() = x) & (tmp.getY() = y) ) {
 			return -1;
 		} else {
 			return 0;
@@ -47,6 +77,10 @@ class Segment {
 	}
 
 	method void dispose() {
+		if(~(next = null)) {
+			do next.dispose();
+		}
+
 		do Memory.deAlloc(this);
 		return;
 	}

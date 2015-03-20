@@ -1,0 +1,103 @@
+function Main.getDirection 1
+call Keyboard.keyPressed 0
+pop local 0
+push local 0
+call Output.printInt 1
+pop temp 0
+push constant 100
+call Sys.wait 1
+pop temp 0
+push local 0
+push constant 87
+eq
+push local 0
+or
+push constant 65
+eq
+push local 0
+or
+push constant 83
+eq
+push local 0
+or
+push constant 68
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+return
+label IF_FALSE0
+push constant 0
+return
+function Main.main 3
+push constant 0
+pop local 0
+call Snake.new 0
+pop local 1
+label WHILE_EXP0
+push local 0
+push constant 0
+eq
+not
+if-goto WHILE_END0
+label WHILE_EXP1
+call Keyboard.keyPressed 0
+not
+if-goto WHILE_END1
+goto WHILE_EXP1
+label WHILE_END1
+call Keyboard.keyPressed 0
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+label WHILE_EXP2
+push constant 1
+neg
+not
+if-goto WHILE_END2
+call Main.getDirection 0
+pop local 2
+push local 2
+push constant 0
+eq
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 2
+pop local 0
+label IF_FALSE0
+call Screen.clearScreen 0
+pop temp 0
+push local 1
+push local 0
+call Snake.move 2
+pop temp 0
+push local 1
+call Snake.drawSnake 1
+pop temp 0
+push constant 100
+call Sys.wait 1
+pop temp 0
+goto WHILE_EXP2
+label WHILE_END2
+push local 1
+call Snake.drawSnake 1
+pop temp 0
+push constant 1000
+call Sys.wait 1
+pop temp 0
+call Screen.clearScreen 0
+pop temp 0
+call Screen.clearScreen 0
+pop temp 0
+push local 1
+push constant 77
+call Snake.move 2
+pop temp 0
+push local 1
+call Snake.drawSnake 1
+pop temp 0
+push constant 0
+return
