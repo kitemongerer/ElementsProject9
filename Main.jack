@@ -3,15 +3,21 @@ class Main {
 	function char getDirection() {
 		var char tmp;
 		let tmp = Keyboard.keyPressed();
-		do Output.printInt(tmp);
 
-		do Sys.wait(100);
-
-		if (tmp = 87 | tmp = 65 | tmp = 83 | tmp = 68) {
+		if ( (tmp = 87) | (tmp = 65) | (tmp = 83) | (tmp = 68) ) {
 			return tmp;
 		}
 		
 		return 0;
+	}
+
+	function void welcome() {
+		do Output.moveCursor(10, 24);
+		do Output.printString("Welcome to Snake!");
+		do Output.moveCursor(12, 18);
+		do Output.printString("Press W, A, S, or D to start");
+
+		return;
 	}
 
 
@@ -23,42 +29,25 @@ class Main {
 		let direction = 0;
 		let snake = Snake.new();
 
+		do Main.welcome();
+
 		while(direction = 0) {
-			while(Keyboard.keyPressed()) {}
-			//do Output.moveCursor(5,5);
-			//do Output.printInt(Keyboard.keyPressed());
-			let direction = Keyboard.keyPressed();//Main.getDirection();
+			let direction = Main.getDirection();
 		}
 
 		while(-1) {
-			let tmp = Main.getDirection(); //Keyboard.keyPressed();
+			let tmp = Keyboard.keyPressed();
 
-			if(~(tmp = 0)) {
+			if ( ~(tmp = 0) ) {
 				let direction = tmp;
 			}
 
-			
-
+			// Move the snake and draw the snake
 			do Screen.clearScreen();
-
-			//do Output.moveCursor(5,5);
-			//do Output.printInt(direction);
 			do snake.move(direction);
 			do snake.drawSnake();
 			do Sys.wait(100);
 		}
-		
-
-
-		do snake.drawSnake();
-
-		do Sys.wait(1000);
-
-		do Screen.clearScreen();
-		
-		do Screen.clearScreen();
-		do snake.move(77);
-		do snake.drawSnake();
 
 		return;
 	}

@@ -1,6 +1,5 @@
 class Snake {
 
-	field int length;
 	field Segment snakeHead;
 	field Segment snakeTail;
 
@@ -8,14 +7,14 @@ class Snake {
 	constructor Snake new() {
 		var int i;
 
-		let length = 5;
-
+		// Create snake head
 		let snakeHead = Segment.new(30, 16, null);
 		let snakeTail = snakeHead;
 
 		let i = 1;
 
-		while(i < length) {
+		// Create the rest of the snake
+		while(i < 5) {
 			do snakeTail.add(Segment.new(30 + i, 16, null));
 			let snakeTail = snakeTail.next();
 			let i = i + 1;
@@ -29,11 +28,30 @@ class Snake {
 		let currentSeg = snakeHead;
 
 		while(~(currentSeg = null)) {
+			
+			// CHECK FOR COLLISION HERE
+
 			do currentSeg.draw();
 			let currentSeg = currentSeg.next();
 		}
 
 		return;
+
+
+/*
+		while (i > 0) {
+			let snake[i] = snake [i - 1];
+
+			if (snake[i].collide(tmp)) {
+				let collision = -1;
+			}
+
+			let i = i + 1;
+		}
+
+		let snake[0] = tmp;
+*/
+
 	}
 
 	method void move(char direction) {
@@ -41,10 +59,6 @@ class Snake {
 		var int y;
 		var Segment tmp;
 
-		let tmp = snakeTail.previous();
-		do tmp.setNext(null);
-		do snakeTail.dispose();
-		let snakeTail = tmp;
 
 		let x = 0;
 		let y = 0;
@@ -64,22 +78,21 @@ class Snake {
 			}
 		}
 
-		let tmp = Segment.new(snakeHead.getX() + x, snakeHead.getY() + y, snakeHead);
-
-/*
-		while (i > 0) {
-			let snake[i] = snake [i - 1];
-
-			if (snake[i].collide(tmp)) {
-				let collision = -1;
-			}
-
-			let i = i + 1;
+		//Check if snake is trying to move off the screen
+		if ( ((snakeHead.getX() + x) > -1) & ((snakeHead.getY() + y) > -1) & ((snakeHead.getX() + x) < 64) & ((snakeHead.getY() + y) < 32)) { 
+			
+		} else {
+			return;
 		}
 
-		let snake[0] = tmp;
-*/
-
+		// Delete the tail
+		let tmp = snakeTail.previous();
+		do tmp.setNext(null);
+		do snakeTail.dispose();
+		let snakeTail = tmp;
+	
+		// Add new head
+		let tmp = Segment.new(snakeHead.getX() + x, snakeHead.getY() + y, snakeHead);
 		do tmp.add(snakeHead);
 		let snakeHead = tmp;
 

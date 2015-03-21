@@ -1,25 +1,23 @@
 function Snake.new 1
-push constant 3
+push constant 2
 call Memory.alloc 1
 pop pointer 0
-push constant 5
-pop this 0
 push constant 30
 push constant 16
 push constant 0
 call Segment.new 3
+pop this 0
+push this 0
 pop this 1
-push this 1
-pop this 2
 push constant 1
 pop local 0
 label WHILE_EXP0
 push local 0
-push this 0
+push constant 5
 lt
 not
 if-goto WHILE_END0
-push this 2
+push this 1
 push constant 30
 push local 0
 add
@@ -28,9 +26,9 @@ push constant 0
 call Segment.new 3
 call Segment.add 2
 pop temp 0
-push this 2
+push this 1
 call Segment.next 1
-pop this 2
+pop this 1
 push local 0
 push constant 1
 add
@@ -42,7 +40,7 @@ return
 function Snake.drawSnake 1
 push argument 0
 pop pointer 0
-push this 1
+push this 0
 pop local 0
 label WHILE_EXP0
 push local 0
@@ -64,18 +62,6 @@ return
 function Snake.move 3
 push argument 0
 pop pointer 0
-push this 2
-call Segment.previous 1
-pop local 2
-push local 2
-push constant 0
-call Segment.setNext 2
-pop temp 0
-push this 2
-call Segment.dispose 1
-pop temp 0
-push local 2
-pop this 2
 push constant 0
 pop local 0
 push constant 0
@@ -117,23 +103,72 @@ pop local 0
 label IF_END2
 label IF_END1
 label IF_END0
-push this 1
+push this 0
 call Segment.getX 1
 push local 0
 add
-push this 1
+push constant 1
+neg
+gt
+push this 0
 call Segment.getY 1
 push local 1
 add
+push constant 1
+neg
+gt
+and
+push this 0
+call Segment.getX 1
+push local 0
+add
+push constant 64
+lt
+and
+push this 0
+call Segment.getY 1
+push local 1
+add
+push constant 32
+lt
+and
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+goto IF_END3
+label IF_FALSE3
+push constant 0
+return
+label IF_END3
 push this 1
-call Segment.new 3
+call Segment.previous 1
 pop local 2
 push local 2
+push constant 0
+call Segment.setNext 2
+pop temp 0
 push this 1
-call Segment.add 2
+call Segment.dispose 1
 pop temp 0
 push local 2
 pop this 1
+push this 0
+call Segment.getX 1
+push local 0
+add
+push this 0
+call Segment.getY 1
+push local 1
+add
+push this 0
+call Segment.new 3
+pop local 2
+push local 2
+push this 0
+call Segment.add 2
+pop temp 0
+push local 2
+pop this 0
 push constant 0
 return
 function Snake.addSegment 0
