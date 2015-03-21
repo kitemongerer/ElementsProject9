@@ -1,11 +1,26 @@
 class Main {
 
-	function char getDirection() {
+	function char getDirection(char direction) {
 		var char tmp;
 		let tmp = Keyboard.keyPressed();
 
 		if ( (tmp = 87) | (tmp = 65) | (tmp = 83) | (tmp = 68) ) {
-			return tmp;
+			
+			//Make sure snake can't go backwards on itself
+			if ( (direction = 87) & (tmp = 83) ) {
+				return 0;
+			}
+			if ( (direction = 83) & (tmp = 87) ) {
+				return 0;
+			}
+			if ( (direction = 65) & (tmp = 68) ) {
+				return 0;
+			}
+			if ( (direction = 68) & (tmp = 65) ) {
+				return 0;
+			} else {
+				return tmp;
+			}
 		}
 		
 		return 0;
@@ -32,11 +47,11 @@ class Main {
 		do Main.welcome();
 
 		while(direction = 0) {
-			let direction = Main.getDirection();
+			let direction = Main.getDirection(direction);
 		}
 
 		while(-1) {
-			let tmp = Keyboard.keyPressed();
+			let tmp = Main.getDirection(direction);
 
 			if ( ~(tmp = 0) ) {
 				let direction = tmp;

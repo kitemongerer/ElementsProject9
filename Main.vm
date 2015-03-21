@@ -19,8 +19,62 @@ or
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
+push argument 0
+push constant 87
+eq
+push local 0
+push constant 83
+eq
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+return
+label IF_FALSE1
+push argument 0
+push constant 83
+eq
+push local 0
+push constant 87
+eq
+and
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+return
+label IF_FALSE2
+push argument 0
+push constant 65
+eq
+push local 0
+push constant 68
+eq
+and
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+return
+label IF_FALSE3
+push argument 0
+push constant 68
+eq
+push local 0
+push constant 65
+eq
+and
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 0
+return
+goto IF_END4
+label IF_FALSE4
 push local 0
 return
+label IF_END4
 label IF_FALSE0
 push constant 0
 return
@@ -146,7 +200,8 @@ push constant 0
 eq
 not
 if-goto WHILE_END0
-call Main.getDirection 0
+push local 0
+call Main.getDirection 1
 pop local 0
 goto WHILE_EXP0
 label WHILE_END0
@@ -155,7 +210,8 @@ push constant 1
 neg
 not
 if-goto WHILE_END1
-call Keyboard.keyPressed 0
+push local 0
+call Main.getDirection 1
 pop local 2
 push local 2
 push constant 0
