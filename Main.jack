@@ -58,37 +58,62 @@ class Main {
 		var Segment food;
 		var char tmp;
 		var bool ateFood;
+		var int score;
 
-		let direction = 0;
-		do Main.welcome();
+		while(-1) {
+			let score = 0;
+			let direction = 0;
+			do Main.welcome();
 
-		while(direction = 0) {
-			let counter = counter + 1;
-			let direction = Main.getDirection(direction);
-		}
-
-		let snake = Snake.new(direction);
-		do Random.setSeed(counter);
-		let food = Main.generateFood(snake);
-
-		while(snake.isAlive()) {
-			let tmp = Main.getDirection(direction);
-
-			if ( ~(tmp = 0) ) {
-				let direction = tmp;
+			while(direction = 0) {
+				let counter = counter + 1;
+				let direction = Main.getDirection(direction);
 			}
 
-			// Move the snake and draw the snake
+			let snake = Snake.new(direction);
+			do Random.setSeed(counter);
+			let food = Main.generateFood(snake);
+
+			while( snake.isAlive() ) {
+
+				let tmp = Main.getDirection(direction);
+
+				if ( ~(tmp = 0) ) {
+					let direction = tmp;
+				}
+
+				// Move the snake and draw the snake
+				do Screen.clearScreen();
+				do snake.move(direction, food);
+
+				if ( snake.hasEaten() ) {
+					let score = score + 1;
+					do food.dispose();
+					let food = Main.generateFood(snake);
+				}
+
+				do Screen.drawCircle(food.getX()*8 + 4, food.getY()*8 + 4, 3);
+				do snake.drawSnake();
+				do Sys.wait(100);
+			}
+
+			do snake.dispose();
+
+			if ( ~(food = null)){
+				do food.dispose();
+			}
+
 			do Screen.clearScreen();
-			do snake.move(direction, food);
+			do Output.moveCursor(10, 18);
+			do Output.printString("Game over!     Score: ");
+			do Output.printInt(score);
+			do Output.moveCursor(12, 18);
+			do Output.printString("Press space to continue.");
 
-			if (snake.hasEaten()) {
-				let food = Main.generateFood(snake);
+			while( ~(Keyboard.keyPressed() = 32) ) {
 			}
 
-			do Screen.drawCircle(food.getX()*8 + 4, food.getY()*8 + 4, 3);
-			do snake.drawSnake();
-			do Sys.wait(100);
+			do Screen.clearScreen();
 
 		}
 
