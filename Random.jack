@@ -1,5 +1,7 @@
 /** Random.jack -- A not so random PRNG. */
 
+/** From cadet1620 on nand2tetris forums*/
+
 class Random {
     static int seed;
     
