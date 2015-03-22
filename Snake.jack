@@ -24,14 +24,17 @@ class Snake {
 		return this;
 	}
 
+	// Sees if snake ate food last time it moved
 	method bool hasEaten() {
 		return ateFood;
 	}
 
+	// Checks if snake is still alive
 	method bool isAlive() {
 		return ~isDead;
 	}
 
+	// Makes sure newly generated food is not already on top of snake
 	method bool overlap(Segment food) {
 		var bool ol;
 		var Segment currentSeg;
@@ -47,6 +50,7 @@ class Snake {
 		return ol;
 	}
 
+	// Draws snake and checks if snake has hit itself
 	method void drawSnake() {
 		var Segment currentSeg;
 
@@ -63,6 +67,7 @@ class Snake {
 
 	}
 
+	// Moves snake in specified direction, growing it if it eats food
 	method void move(char direction, Segment food) {
 		var int x;
 		var int y;
@@ -106,11 +111,29 @@ class Snake {
 			//Leaves tail if food is eaten
 			let ateFood = -1;
 		} else {
+			// Deletes tail if no food eaten
 			let tmp = snakeTail.previous();
 			do tmp.setNext(null);
 			do snakeTail.dispose();
 			let snakeTail = tmp;
 		}
+		return;
+	}
+
+	// Deletes snake and all segments corresponding to snake
+	method void dispose() {
+		var Segment currentSeg;
+		var Segment tmp;
+		let currentSeg = snakeHead;
+
+		while(~(currentSeg = null)) {
+			// Deletes all segments
+			let tmp = currentSeg;
+			let currentSeg = currentSeg.next();
+			do tmp.dispose();
+		}
+
+		do Memory.deAlloc(this);
 		return;
 	}
 }
