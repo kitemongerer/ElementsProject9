@@ -78,6 +78,29 @@ label IF_END4
 label IF_FALSE0
 push constant 0
 return
+function Main.generateFood 2
+push constant 1
+neg
+pop local 0
+label WHILE_EXP0
+push local 0
+not
+if-goto WHILE_END0
+push constant 64
+call Random.randRange 1
+push constant 32
+call Random.randRange 1
+push constant 0
+call segment.new 3
+pop local 1
+push argument 0
+push local 1
+call Snake.overlap 2
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push local 1
+return
 function Main.welcome 0
 push constant 10
 push constant 24
@@ -187,49 +210,80 @@ call Output.printString 1
 pop temp 0
 push constant 0
 return
-function Main.main 3
+function Main.main 6
 push constant 0
-pop local 0
-call Snake.new 0
 pop local 1
+call Snake.new 0
+pop local 2
 call Main.welcome 0
 pop temp 0
 label WHILE_EXP0
-push local 0
+push local 1
 push constant 0
 eq
 not
 if-goto WHILE_END0
 push local 0
-call Main.getDirection 1
+push constant 1
+add
 pop local 0
+push local 1
+call Main.getDirection 1
+pop local 1
 goto WHILE_EXP0
 label WHILE_END0
+push local 0
+call Random.setSeed 1
+pop temp 0
+push local 2
+call Main.generateFood 1
+pop local 3
 label WHILE_EXP1
-push constant 1
-neg
+push local 2
+call Snake.isAlive 1
 not
 if-goto WHILE_END1
-push local 0
+push local 1
 call Main.getDirection 1
-pop local 2
-push local 2
+pop local 4
+push local 4
 push constant 0
 eq
 not
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push local 2
-pop local 0
+push local 4
+pop local 1
 label IF_FALSE0
 call Screen.clearScreen 0
 pop temp 0
+push local 2
 push local 1
-push local 0
-call Snake.move 2
+push local 3
+call Snake.move 3
 pop temp 0
-push local 1
+push local 2
+call Snake.hasEaten 1
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 2
+call Main.generateFood 1
+pop local 3
+label IF_FALSE1
+push local 3
+call Segment.getX 1
+push constant 4
+add
+push local 3
+call Segment.getY 1
+push constant 4
+add
+push constant 4
+call Screen.drawCircle 3
+pop temp 0
+push local 2
 call Snake.drawSnake 1
 pop temp 0
 push constant 100

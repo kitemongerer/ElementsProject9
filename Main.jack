@@ -26,6 +26,21 @@ class Main {
 		return 0;
 	}
 
+	function Segment generateFood(Snake snake) {
+		var bool collide;
+		var Segment nfood;
+
+		let collide = -1;
+
+		while (collide) {
+			let nfood = segment.new(Random.randRange(64),Random.randRange(32), null);
+			let collide = snake.overlap(nfood);
+		}
+
+		return nfood;
+
+	}
+
 	function void welcome() {
 		do Output.moveCursor(10, 24);
 		do Output.printString("Welcome to Snake!");
@@ -37,20 +52,26 @@ class Main {
 
 
 	function void main() {
+		var int counter;
 		var char direction;
 		var Snake snake;
+		var Segment food;
 		var char tmp;
+		var bool ateFood;
 
 		let direction = 0;
 		let snake = Snake.new();
-
 		do Main.welcome();
 
 		while(direction = 0) {
+			let counter = counter + 1;
 			let direction = Main.getDirection(direction);
 		}
 
-		while(-1) {
+		do Random.setSeed(counter);
+		let food = Main.generateFood(snake);
+
+		while(snake.isAlive()) {
 			let tmp = Main.getDirection(direction);
 
 			if ( ~(tmp = 0) ) {
@@ -59,9 +80,16 @@ class Main {
 
 			// Move the snake and draw the snake
 			do Screen.clearScreen();
-			do snake.move(direction);
+			do snake.move(direction, food);
+
+			if (snake.hasEaten()) {
+				let food = Main.generateFood(snake);
+			}
+
+			do Screen.drawCircle(food.getX() + 4, food.getY() + 4, 4);
 			do snake.drawSnake();
 			do Sys.wait(100);
+
 		}
 
 		return;

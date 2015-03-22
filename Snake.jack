@@ -2,6 +2,8 @@ class Snake {
 
 	field Segment snakeHead;
 	field Segment snakeTail;
+	field bool isDead;
+	field bool ateFood;
 
 	/** Constructs a new snake */
 	constructor Snake new() {
@@ -10,7 +12,7 @@ class Snake {
 		// Create snake head
 		let snakeHead = Segment.new(30, 16, null);
 		let snakeTail = snakeHead;
-
+		let isDead = 0;
 		let i = 1;
 
 		// Create the rest of the snake
@@ -23,45 +25,56 @@ class Snake {
 		return this;
 	}
 
+	method bool hasEaten() {
+		return ateFood;
+	}
+
+	method bool isAlive() {
+		return ~isDead;
+	}
+
+	method bool overlap(Segment food) {
+		var bool ol;
+		var Segment currentSeg;
+
+		let ol = 0;
+		let currentSeg = snakeHead;
+
+		while(~(currentSeg = null)) {
+			let ol = ol | currentSeg.collide(food);
+			let currentSeg = currentSeg.next();
+		}
+
+		return ol;
+	}
+
 	method void drawSnake() {
 		var Segment currentSeg;
 		let currentSeg = snakeHead;
 
-		while(~(currentSeg = null)) {
-			
-			// CHECK FOR COLLISION HERE
+		do currentSeg.draw();
+		let currentSeg = currentSeg.next();
 
+		while(~(currentSeg = null)) {
+
+			let isDead = isDead | currentSeg.collide(snakeHead);
 			do currentSeg.draw();
 			let currentSeg = currentSeg.next();
 		}
 
 		return;
 
-
-/*
-		while (i > 0) {
-			let snake[i] = snake [i - 1];
-
-			if (snake[i].collide(tmp)) {
-				let collision = -1;
-			}
-
-			let i = i + 1;
-		}
-
-		let snake[0] = tmp;
-*/
-
 	}
 
-	method void move(char direction) {
+	method void move(char direction, Segment food) {
 		var int x;
 		var int y;
 		var Segment tmp;
 
-
 		let x = 0;
 		let y = 0;
+
+		let ateFood = 0;
 
 		//Change based on direction
 		if (direction = 87) { //w
@@ -78,29 +91,28 @@ class Snake {
 			}
 		}
 
-		//Check if snake is trying to move off the screen
-		if ( ((snakeHead.getX() + x) > -1) & ((snakeHead.getY() + y) > -1) & ((snakeHead.getX() + x) < 64) & ((snakeHead.getY() + y) < 32)) { 
-			
+		let tmp = Segment.new(snakeHead.getX() + x, snakeHead.getY() + y, snakeHead);
+
+
+		//Check if snake is trying to move off the screen and kills if is
+		if ( (tmp.getX() > -1) & (tmp.getY() > -1) & (tmp.getX() < 64) & (tmp.getY() < 32)) { 
+			// adds TMP to front of snake
+			do tmp.add(snakeHead);
+			let snakeHead = tmp;
 		} else {
-			return;
+			let isDead = -1;
+			do tmp.dispose();
 		}
 
-		// Delete the tail
-		let tmp = snakeTail.previous();
-		do tmp.setNext(null);
-		do snakeTail.dispose();
-		let snakeTail = tmp;
-	
-		// Add new head
-		let tmp = Segment.new(snakeHead.getX() + x, snakeHead.getY() + y, snakeHead);
-		do tmp.add(snakeHead);
-		let snakeHead = tmp;
-
+		if (food.collide(tmp)){
+			//Leaves tail if food is eaten
+			let ateFood = -1;
+		} else {
+			let tmp = snakeTail.previous();
+			do tmp.setNext(null);
+			do snakeTail.dispose();
+			let snakeTail = tmp;
+		}
 		return;
 	}
-
-	method void addSegment() {
-		return;
-	}
-	
 }
