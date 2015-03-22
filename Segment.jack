@@ -69,18 +69,18 @@ class Segment {
 	}
 
 	method boolean collide(Segment tmp) {
-		if ( (tmp.getX() = x) & (tmp.getY() = y) ) {
-			return -1;
+		if (~(tmp = null)){
+			if ( (tmp.getX() = x) & (tmp.getY() = y) ) {
+				return -1;
+			} else {
+				return 0;
+			}
 		} else {
 			return 0;
 		}
 	}
 
 	method void dispose() {
-		if(~(next = null)) {
-			do next.dispose();
-		}
-
 		do Memory.deAlloc(this);
 		return;
 	}

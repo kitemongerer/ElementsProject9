@@ -19,18 +19,11 @@ push constant 5
 lt
 not
 if-goto WHILE_END0
-push this 1
-push constant 30
-push local 0
-add
-push constant 16
+push pointer 0
+push argument 0
 push constant 0
-call Segment.new 3
-call Segment.add 2
+call Snake.move 3
 pop temp 0
-push this 1
-call Segment.next 1
-pop this 1
 push local 0
 push constant 1
 add
@@ -81,11 +74,9 @@ function Snake.drawSnake 1
 push argument 0
 pop pointer 0
 push this 0
-pop local 0
-push local 0
 call Segment.draw 1
 pop temp 0
-push local 0
+push this 0
 call Segment.next 1
 pop local 0
 label WHILE_EXP0
@@ -120,6 +111,8 @@ push constant 0
 pop local 1
 push constant 0
 pop this 3
+push constant 0
+pop this 2
 push argument 1
 push constant 87
 eq
@@ -165,7 +158,7 @@ push this 0
 call Segment.getY 1
 push local 1
 add
-push this 0
+push constant 0
 call Segment.new 3
 pop local 2
 push local 2
@@ -208,8 +201,12 @@ call Segment.dispose 1
 pop temp 0
 label IF_END3
 push argument 2
+push constant 0
+eq
 push local 2
+push argument 2
 call Segment.collide 2
+or
 if-goto IF_TRUE4
 goto IF_FALSE4
 label IF_TRUE4

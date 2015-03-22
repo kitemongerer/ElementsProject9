@@ -33,7 +33,7 @@ class Main {
 		let collide = -1;
 
 		while (collide) {
-			let nfood = segment.new(Random.randRange(64),Random.randRange(32), null);
+			let nfood = Segment.new(Random.randRange(63),Random.randRange(31), null);
 			let collide = snake.overlap(nfood);
 		}
 
@@ -60,7 +60,6 @@ class Main {
 		var bool ateFood;
 
 		let direction = 0;
-		let snake = Snake.new();
 		do Main.welcome();
 
 		while(direction = 0) {
@@ -68,6 +67,7 @@ class Main {
 			let direction = Main.getDirection(direction);
 		}
 
+		let snake = Snake.new(direction);
 		do Random.setSeed(counter);
 		let food = Main.generateFood(snake);
 
@@ -86,7 +86,7 @@ class Main {
 				let food = Main.generateFood(snake);
 			}
 
-			do Screen.drawCircle(food.getX() + 4, food.getY() + 4, 4);
+			do Screen.drawCircle(food.getX()*8 + 4, food.getY()*8 + 4, 3);
 			do snake.drawSnake();
 			do Sys.wait(100);
 

@@ -6,7 +6,7 @@ class Snake {
 	field bool ateFood;
 
 	/** Constructs a new snake */
-	constructor Snake new() {
+	constructor Snake new(char direction) {
 		var int i;
 
 		// Create snake head
@@ -17,8 +17,7 @@ class Snake {
 
 		// Create the rest of the snake
 		while(i < 5) {
-			do snakeTail.add(Segment.new(30 + i, 16, null));
-			let snakeTail = snakeTail.next();
+			do move(direction, null);
 			let i = i + 1;
 		}
 
@@ -50,13 +49,11 @@ class Snake {
 
 	method void drawSnake() {
 		var Segment currentSeg;
-		let currentSeg = snakeHead;
 
-		do currentSeg.draw();
-		let currentSeg = currentSeg.next();
+		do snakeHead.draw();
+		let currentSeg = snakeHead.next();
 
 		while(~(currentSeg = null)) {
-
 			let isDead = isDead | currentSeg.collide(snakeHead);
 			do currentSeg.draw();
 			let currentSeg = currentSeg.next();
@@ -75,6 +72,7 @@ class Snake {
 		let y = 0;
 
 		let ateFood = 0;
+		let isDead = 0;
 
 		//Change based on direction
 		if (direction = 87) { //w
@@ -91,7 +89,7 @@ class Snake {
 			}
 		}
 
-		let tmp = Segment.new(snakeHead.getX() + x, snakeHead.getY() + y, snakeHead);
+		let tmp = Segment.new(snakeHead.getX() + x, snakeHead.getY() + y, null);
 
 
 		//Check if snake is trying to move off the screen and kills if is
@@ -104,7 +102,7 @@ class Snake {
 			do tmp.dispose();
 		}
 
-		if (food.collide(tmp)){
+		if ((food = null) | tmp.collide(food)) {
 			//Leaves tail if food is eaten
 			let ateFood = -1;
 		} else {

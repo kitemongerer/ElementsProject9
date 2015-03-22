@@ -86,12 +86,12 @@ label WHILE_EXP0
 push local 0
 not
 if-goto WHILE_END0
-push constant 64
+push constant 63
 call Random.randRange 1
-push constant 32
+push constant 31
 call Random.randRange 1
 push constant 0
-call segment.new 3
+call Segment.new 3
 pop local 1
 push argument 0
 push local 1
@@ -213,8 +213,6 @@ return
 function Main.main 6
 push constant 0
 pop local 1
-call Snake.new 0
-pop local 2
 call Main.welcome 0
 pop temp 0
 label WHILE_EXP0
@@ -232,6 +230,9 @@ call Main.getDirection 1
 pop local 1
 goto WHILE_EXP0
 label WHILE_END0
+push local 1
+call Snake.new 1
+pop local 2
 push local 0
 call Random.setSeed 1
 pop temp 0
@@ -274,13 +275,17 @@ pop local 3
 label IF_FALSE1
 push local 3
 call Segment.getX 1
+push constant 8
+call Math.multiply 2
 push constant 4
 add
 push local 3
 call Segment.getY 1
+push constant 8
+call Math.multiply 2
 push constant 4
 add
-push constant 4
+push constant 3
 call Screen.drawCircle 3
 pop temp 0
 push local 2
